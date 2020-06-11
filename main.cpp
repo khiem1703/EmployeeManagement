@@ -21,16 +21,19 @@ int main()
     string abc;
     n=Helpper ::numberLine(); // lấy ra số dòng
     n=n-1;
-    cout<<n<<endl;
     ifs >> abc;
     char ss[5];
     ifs.getline(ss, 3);// loai bo xuong dong
 
 
 // dùng vì cần checkid // đọc ra tất cả
+    int line=1 ;
+    int *linePtr=&line;
+
+
     for (int i=0 ; i < n ; i++){
         employee = new Employee();
-        employee->read(ifs);
+        employee->read(ifs ,list ,linePtr);
         list.push_back(employee);
     }
 

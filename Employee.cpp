@@ -7,6 +7,7 @@
 #include <map>
 #include <algorithm>
 
+
 Employee::Employee(const std::string &id,
                    const std::string &name,
                    const std::string &dateOfBirth,
@@ -59,7 +60,7 @@ void Employee::enterEmployee(vector<Employee*> list ,string url){
     cin.ignore();
     cout << "ID : ";
     getline(cin,_id);
-    while (checkId(list, _id) == 0) {
+    while (Helpper::checkId(list, _id) == 0) {
         cout << "trung id, xin nhap lai:  " << endl;
         getline(cin, _id);
 
@@ -69,7 +70,7 @@ void Employee::enterEmployee(vector<Employee*> list ,string url){
     getline(cin, _name);
     cout << "Ngay Sinh Nhan Vien: ";
     getline(cin, _dateOfBirth);
-    while (checkDateOfBirth(_dateOfBirth) == 0) {
+    while (Helpper::checkDateOfBirth(_dateOfBirth) == 0) {
         cout << "Ngay thang nam sinh khong hop le, vui long nhap lai:" << endl;
         getline(cin, _dateOfBirth);
     }
@@ -104,16 +105,19 @@ void Employee::printEmployee(){
     cout << "Dia Chi Nhan Vien: " << _address << endl;
     cout << "Phong Ban Nhan Vien: " << _department << endl;
     cout << "" <<endl;
+    //cout << _id <<"   "<<_name<<"   "<<_dateOfBirth<<"   "<<_address<<"   "<<_department << endl;
 
 }
 
 
 
-void Employee::read(ifstream &in){
+void Employee::read(ifstream &in ,vector<Employee*> list ,int *linePtr){
     char lines[500];
     //    char id[10], na[40], birth[20], ad[20], de[20];
     fflush(stdin);
     in.getline(lines,500);
+    *linePtr=*linePtr+1;
+
 
     //    in.getline(id, 40);
     //    in.getline(na, 40);
@@ -123,6 +127,19 @@ void Employee::read(ifstream &in){
     string str = lines;
     vector<string> v = Helpper::split (str, ',');
 
+    if(   Helpper::checkId(list ,v.at(0))  ==0){
+        //cout<< "id bi trung o dong thu "<<*line <<endl;
+         cout<<"bi trung id o dong thu "<<*linePtr <<endl;
+
+        return; // nếu bị trùng không lưu vào list nữa
+    }
+
+    if(   Helpper::checkDateOfBirth(v.at(2))  ==0){
+
+         cout<<"Ngay sinh khong phu hop "<<*linePtr <<endl;
+
+        return; // nếu bị trùng không lưu vào list nữa
+    }
 
     this->setId(v.at(0));
     this->setName(v.at(1));
@@ -139,62 +156,8 @@ void Employee::write(ofstream &ofs){
           <<  this->getDepartment() << endl;
 
 }
-int Employee:: checkId(vector<Employee*> list, string id)
-{;
-    for (int i = 0; i < list.size(); i++ ){
-        if (list[i]->getId()==id){
-            return 0;
-        }
-    }
-    return 1;
-}
 
-int Employee:: checkDateOfBirth(string dateOfBirth){
-    for (int i = 0; i < dateOfBirth.length(); i++) {
-        if ((dateOfBirth[i] < 47) || (dateOfBirth[i] > 57)) {
-            return 0;
-        }
-    }
-    vector<string> birth;
-    while(!dateOfBirth.empty()){
-        birth.push_back(dateOfBirth.substr(0, dateOfBirth.find("/")));
-        if (dateOfBirth.find("/") > dateOfBirth.size()) {
-            break;
-        }
-        dateOfBirth.erase(0, dateOfBirth.find("/") + 1);
-    }
-    if (birth.size() != 3) {
-        return 0;
-    } else {
-        if ((stoi(birth[0], 0, 10) > 31) || (stoi(birth[1], 0, 10) > 12)) {
-            return 0;
-        } else {
-            switch (stoi(birth[1], 0, 10))
-            {
-            case 2:
-                if (stoi(birth[0], 0, 10) > 29) {
-                    return 0;
-                }
-                if (stoi(birth[0], 0, 10) == 29){
-                    if((stoi(birth[2], 0, 10) % 400 == 0) || ((stoi(birth[2], 0, 10) % 4 == 0) && (stoi(birth[2], 0, 10) % 100 != 0))) {
-                        return 1;
-                    }
-                    return 0;
-                }
-                return 1;
-                break;
 
-            case 4: case 6: case 9: case 11:
-                if (stoi(birth[0], 0, 10) > 30) {
-                    return 0;
-                }
-                return 1;
-                break;
-            }
-        }
-    }
-    return 1;
-}
 void Employee::searchEmployee(vector<Employee*> list){
     // map<string,Employee> list =  Staff::addMapStaff(urlFile);
     // vector<Employee*>::iterator itr;
@@ -232,7 +195,7 @@ void Employee::searchEmployee(vector<Employee*> list){
 
             if(check == 0){
 
-               cout << "Khong co nhan vien co id = "<< idSearch << endl;
+                cout << "Khong co nhan vien co id = "<< idSearch << endl;
 
             }
             break;
@@ -246,7 +209,7 @@ void Employee::searchEmployee(vector<Employee*> list){
             getline(cin,name);
             int check = 0;
             for (int i = 0; i < list.size(); i++ ){
-               if(Helpper::isSubstring(name,list[i]->getName()) >= 0){
+                if(Helpper::isSubstring(name,list[i]->getName()) >= 0){
                     list[i]->printEmployee();
                     check = 1;
                 }
@@ -271,7 +234,7 @@ void Employee::searchEmployee(vector<Employee*> list){
             int check = 0;
             cout << "----= danh sach dia chi = "<<address <<"=----" <<endl;
             for (int i = 0; i < list.size(); i++ ){
-               if(Helpper::isSubstring(address,list[i]->getAddress()) >= 0){
+                if(Helpper::isSubstring(address,list[i]->getAddress()) >= 0){
                     list[i]->printEmployee();
                     check = 1;
                 }
@@ -296,7 +259,7 @@ void Employee::searchEmployee(vector<Employee*> list){
             cout << department <<"-------------";
             int check = 0;
             for (int i = 0; i < list.size(); i++ ){
-               if(Helpper::isSubstring(department,list[i]->getDepartment()) >= 0){
+                if(Helpper::isSubstring(department,list[i]->getDepartment()) >= 0){
                     list[i]->printEmployee();
                     check = 1;
                 }

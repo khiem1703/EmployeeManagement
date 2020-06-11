@@ -59,6 +59,62 @@ int Helpper::isSubstring(string s1, string s2)
 
     return -1;
 }
+int Helpper:: checkId(vector<Employee*> list, string id) // trùng id trả về 0 ,không trùng trả về 1
+{;
+    for (int i = 0; i < list.size(); i++ ){
+        if (list[i]->getId()==id){
+            return 0;
+        }
+    }
+    return 1;
+}
+int Helpper:: checkDateOfBirth(string dateOfBirth){
+    for (int i = 0; i < dateOfBirth.length(); i++) {
+        if ((dateOfBirth[i] < 47) || (dateOfBirth[i] > 57)) {
+            return 0;
+        }
+    }
+    vector<string> birth;
+    while(!dateOfBirth.empty()){
+        birth.push_back(dateOfBirth.substr(0, dateOfBirth.find("/")));
+        if (dateOfBirth.find("/") > dateOfBirth.size()) {
+            break;
+        }
+        dateOfBirth.erase(0, dateOfBirth.find("/") + 1);
+    }
+    if (birth.size() != 3) {
+        return 0;
+    } else {
+        if ((stoi(birth[0], 0, 10) > 31) || (stoi(birth[1], 0, 10) > 12)) {
+            return 0;
+        } else {
+            switch (stoi(birth[1], 0, 10))
+            {
+            case 2:
+                if (stoi(birth[0], 0, 10) > 29) {
+                    return 0;
+                }
+                if (stoi(birth[0], 0, 10) == 29){
+                    if((stoi(birth[2], 0, 10) % 400 == 0) || ((stoi(birth[2], 0, 10) % 4 == 0) && (stoi(birth[2], 0, 10) % 100 != 0))) {
+                        return 1;
+                    }
+                    return 0;
+                }
+                return 1;
+                break;
+
+            case 4: case 6: case 9: case 11:
+                if (stoi(birth[0], 0, 10) > 30) {
+                    return 0;
+                }
+                return 1;
+                break;
+            }
+        }
+    }
+    return 1;
+}
+
 
 
 
