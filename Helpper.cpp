@@ -3,6 +3,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
+
 using namespace std;
 
 int Helpper :: numberLine(){ // hàm đếm số dòng trong file
@@ -37,6 +39,25 @@ vector<string> Helpper ::split(const string &s, char delim){
     }
 
     return result;
+}
+//hàm so sánh 2 string
+int Helpper::isSubstring(string s1, string s2)
+{
+    std::transform(s1.begin(), s1.end(),s1.begin(), ::tolower);
+    std::transform(s2.begin(), s2.end(),s2.begin(), ::tolower);
+    int M = s1.length();
+    int N = s2.length();
+    for (int i = 0; i <= N - M; i++) {
+        int j;
+        for (j = 0; j < M; j++)
+            if (s2[i + j] != s1[j])
+                break;
+
+        if (j == M)
+            return i;
+    }
+
+    return -1;
 }
 
 

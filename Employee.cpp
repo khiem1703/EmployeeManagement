@@ -5,6 +5,8 @@
 #include <sstream>
 #include <fstream>
 #include <map>
+#include <algorithm>
+
 Employee::Employee(const std::string &id,
                    const std::string &name,
                    const std::string &dateOfBirth,
@@ -104,16 +106,7 @@ void Employee::printEmployee(){
     cout << "" <<endl;
 
 }
-void Employee::searchEmployeeById(string idSearch ,vector<Employee*> list){
-    for (int i = 0; i < list.size(); i++ ){
-        if (list[i]->getId() == idSearch){
-            list[i]->printEmployee();
-            return;
-        }
-    }
-    cout << "Khong co nhan vien co id = "<< idSearch << endl;
 
-}
 
 
 void Employee::read(ifstream &in){
@@ -201,4 +194,127 @@ int Employee:: checkDateOfBirth(string dateOfBirth){
         }
     }
     return 1;
+}
+void Employee::searchEmployee(vector<Employee*> list){
+    // map<string,Employee> list =  Staff::addMapStaff(urlFile);
+    // vector<Employee*>::iterator itr;
+
+
+    int choice;
+
+
+    do {
+        cout << ""<< endl;
+        cout <<"------- MENU SEARCH-------" <<endl;
+        cout <<"1-Tim kiem theo ID           -" <<endl ;
+        cout <<"2-Tim kiem theo Name         -" <<endl;
+        cout <<"3-Tim kiem theo Address      -"<<endl ;
+        cout <<"4-Tim kiem theo Department   -"<<endl ;
+        cout <<"0-Thoat   -"<<endl ;
+        cout <<"--------------------------" <<endl;
+        cout << " Nhap lua chon cua ban :  " ;
+        cin >> choice;
+        switch (choice) {
+        case 1:
+        {
+
+            string idSearch;
+            cout << "=> Tim kiem theo ID  " <<endl;
+            cout << "Nhap id:= " ;
+            cin >> idSearch;
+            int check = 0;
+            for (int i = 0; i < list.size(); i++ ){
+                if (list[i]->getId() == idSearch){
+                    list[i]->printEmployee();
+                    check = 1;
+                }
+            }
+
+            if(check == 0){
+
+               cout << "Khong co nhan vien co id = "<< idSearch << endl;
+
+            }
+            break;
+        }
+        case 2:
+        {
+            cout << "=> Tim kiem theo NAME" << endl;
+            cin.ignore();
+            string name;
+            cout << "nhap ten:= ";
+            getline(cin,name);
+            int check = 0;
+            for (int i = 0; i < list.size(); i++ ){
+               if(Helpper::isSubstring(name,list[i]->getName()) >= 0){
+                    list[i]->printEmployee();
+                    check = 1;
+                }
+            }
+            if(check == 0){
+
+                cout << "Khong co nhan vien co name = "<< name << endl;
+
+            }
+            fflush(stdin);
+            break;
+        }
+
+        case 3:
+        {
+
+            cout << "=> Tim kiem theo Adress" << endl;
+            cin.ignore();
+            string address;
+            cout << "nhap dia chi := ";
+            getline(cin,address);
+            int check = 0;
+            cout << "----= danh sach dia chi = "<<address <<"=----" <<endl;
+            for (int i = 0; i < list.size(); i++ ){
+               if(Helpper::isSubstring(address,list[i]->getAddress()) >= 0){
+                    list[i]->printEmployee();
+                    check = 1;
+                }
+            }
+            if(check == 0){
+
+                cout << "Khong co nhan vien co dia chi = "<< address << endl;
+
+            }
+            fflush(stdin);
+            break;
+        }
+
+        case 4:
+        {
+            cout << "=> Tim kiem theo Department" <<endl;
+            cin.ignore();
+            string department;
+
+            cout << "Nhap phong ban:= ";
+            getline(cin,department);
+            cout << department <<"-------------";
+            int check = 0;
+            for (int i = 0; i < list.size(); i++ ){
+               if(Helpper::isSubstring(department,list[i]->getDepartment()) >= 0){
+                    list[i]->printEmployee();
+                    check = 1;
+                }
+            }
+            if(check == 0){
+                cout << "Khong co nhan vien co phong ban = "<< department<< endl;
+
+            }
+            fflush(stdin);
+            break;
+        }
+        }
+
+    } while (choice != 0);
+
+
+
+    fflush(stdin);
+    cout << "\n-----=======================-----" <<endl;
+
 }

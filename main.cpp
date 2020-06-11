@@ -51,6 +51,7 @@ int main()
             while (a == "yes") {
                 employee = new Employee();
                 employee->enterEmployee(list,"C:\\Users\\khiem\\Desktop\\ImportData.csv");
+                list.push_back(employee);
 
 
                 cout << "Ban muon nhap tiep khong, an yes; neu muon thoat an phim bat ky \n" << endl;
@@ -60,37 +61,8 @@ int main()
 
         else if(choice == 2){
 
-            cout <<"===========================================" << endl;
-            cout <<"= 1-search By Name                      =" << endl;
-            cout <<"= 2-search By Id                =" << endl;
-            cout <<"= 3-search By Address               =" << endl;
-            cout <<"= 3-search By Department               =" << endl;
-            cout <<"= 4-search By DateOfBirth               =" << endl;
 
-
-
-            cout <<"= Chon khac de thoat                      =" << endl;
-            cout <<"===========================================" << endl;
-
-            cout << "Moi ban nhap lai lua chon = ";
-            cin >> choiceSearch; // chọn các lựa chọn trong tìm kiếm
-            if (choiceSearch ==1 ) {
-                string idSearch;
-                cout << "Nhap id nhan vien = ";
-                cin >> idSearch;
-                Employee::searchEmployeeById(idSearch,list);
-            }
-            else if (choiceSearch == 2) {
-
-            }
-            else if (choiceSearch == 3) {
-
-            } else if (choiceSearch == 4) {
-
-            }
-
-
-
+        employee->searchEmployee(list);
 
         }
         else if (choice ==3){
@@ -112,17 +84,6 @@ int main()
     }
 
     while (true);
-
-    //    ofstream ofs("C:\\Users\\khiem\\Desktop\\ImportData.csv", ios::out);
-
-    //    for( int i = 0; i< n; i++ )
-    //        list[i]->write(ofs); // ghi thong tin cac nhan vien ra file OUTPUT.OUT
-
-    //  ofs.close();
-
-
-
-
 
     ifs.close(); // đóng đọc file
     return 0;

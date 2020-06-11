@@ -44,7 +44,7 @@ public:
     int checkDateOfBirth(string dateOfBirth);
     virtual void enterEmployee(vector<Employee*> list,string url);
     virtual void printEmployee();
-    static void searchEmployeeById(string idSearch, vector<Employee*> list);
+    static void searchEmployee( vector<Employee*> list);
 
     void read(ifstream &);
     void write(ofstream &);
