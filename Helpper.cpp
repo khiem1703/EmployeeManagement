@@ -114,6 +114,12 @@ int Helpper:: checkDateOfBirth(string dateOfBirth){
     }
     return 1;
 }
+int Helpper ::checkStatus(string status){ // hop le return 1 , khong hop le return 0
+    if(status =="DL"||status =="DLNN"||status =="N"||status =="NP"){
+        return 1;
+    }
+    return 0;
+}
 
 
 

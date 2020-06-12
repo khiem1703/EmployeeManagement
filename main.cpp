@@ -4,6 +4,12 @@
 #include <vector>
 #include <Employee.h>
 #include <Helpper.h>
+#include <iostream>
+#include <cstring>
+
+
+#include <StatusDate.h>
+
 
 using namespace std;
 
@@ -49,6 +55,7 @@ int main()
         cout << "Chon chuc nang (1-2 hoac khac):" << endl;
         cout << "Moi ban nhap lai lua chon = ";
         cin >> choice;
+
         if (choice == 1) {
             string a = "yes";
             while (a == "yes") {
@@ -79,6 +86,18 @@ int main()
 
                 }
             }
+        }
+
+        else if (choice ==4) { // tạo tất cả các file nhân viên chỉ lần đầu muốn
+            for (int i=0 ; i < list.size(); i++) {
+                std::ofstream o( "C:\\Users\\khiem\\Desktop\\fileNV\\"+list.at(i)->getId()+".csv");
+            }
+
+        }
+        else if(choice ==5){ // lưu thông tin điểm danh
+            // nhập vào id , nhập vào ngày muốn điểm danh ,nhập vào trạng thái muốn điểm danh
+            StatusDate::read(list);
+
         }
         else{
             break;
